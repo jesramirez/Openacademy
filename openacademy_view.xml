@@ -139,10 +139,56 @@
             </field>
         </record>
         
+        <record model="ir.ui.view" id="view_openacademy_session_graph">
+            <field name="name">view.openacademy.session.graph</field>
+            <field name="model">openacademy.session</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <graph string="Attendees by course" type="bar" >
+                    <field name="course_id" />
+                    <field name="attendee_count" operator="+" />
+                </graph>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_openacademy_session_kanban">
+            <field name="name">view.openacademy.session.kanban</field>
+            <field name="model">openacademy.session</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <kanban default_group_by="course_id" >
+                    <field name="color" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}
+                                oe_kanban_global_click_edit oe_semantic_html_override
+                                oe_kanban_card #{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}">
+                                <div class="oe_dropdown_kanban">
+                                    <div class="oe_dropdown_toggle">
+                                        <span class="oe_e">#</span>
+                                        <ul class="oe_dropdown_menu">
+                                            <li><a type="delete">Delete</a></li>
+                                            <li><ul class="oe_kanban_colorpicker" /></li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <b>Session name: <field name="name"></field><br /></b>
+                                    Start date: <field name="start_date"></field><br />
+                                    Duration: <field name="duration"></field>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
         <record model="ir.actions.act_window" id="action_session">
             <field name="name">Sessions</field>
             <field name="res_model">openacademy.session</field>
-            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph,gantt</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">There are no sessions, you can create one right now.</p>
             </field>

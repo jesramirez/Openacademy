@@ -96,6 +96,12 @@ class session (osv.Model):
                 """
         return res
     
+    def _compute_attendee_count(self, cr, uid, ids, fields, arg, context={}):
+        res = {}
+        for session in self.browse(cr, uid, ids, context=context):
+            res[session.id] = len(session.attendee_ids)
+        return res
+    
     def _set_hours(self, cr, uid, id, field, value, arg, context={}):
         if value:
             self.write(cr, uid, id, {'duration':(value/24)}, context=context)
@@ -113,6 +119,8 @@ class session (osv.Model):
         'active':       fields.boolean(string="Active", help="Uncheck this to deactivate this session. Beware, it will not appear anymore in the session list."),
         'end_date':     fields.function(_compute_end_date, fnct_inv=_set_end_date, type="date", string="End date"),
         'hours':        fields.function(_compute_hours, fnct_inv=_set_hours, type="float", string="Hours"),
+        'attendee_count':   fields.function(_compute_attendee_count, type="integer", string="Attendee Count", store=True),
+        'color':        fields.integer('Color'),
     }
     
     _defaults = {
