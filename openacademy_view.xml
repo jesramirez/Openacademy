@@ -90,13 +90,15 @@
                         <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
-                        <group colspan="2" col="2">
-                            <separator string="General" colspan="2" />
-                            <field name="course_id" />
-                            <field name="name" />
-                            <field name="instructor_id" />
-                            <field name="active" />
-                        </group>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" />
+                            <h1><field name="name" placeholder="Session name (ie: Day 2)" /></h1>
+                            <group colspan="2" col="2">
+                                <field name="course_id" />
+                                <field name="instructor_id" />
+                                <field name="active" />
+                            </group>
+                        </div>
                         <group colspan="2" col="2">
                             <separator string="Schedule" colspan="2" />
                             <field name="start_date" />
