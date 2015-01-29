@@ -8,7 +8,7 @@ class course (osv.Model):
     _columns = {
         'name':             fields.char(string="Name", size=128, required=True),
         'description':      fields.text(string="Description"),
-        'responsible_id':   fields.many2one('res.users', string="Responsible", required=True),
+        'responsible_id':   fields.many2one('res.users', string="Responsible", required=True, select="True"),
         'session_ids':      fields.one2many('openacademy.session', 'course_id', string="Sessions"),
     }
     
@@ -76,8 +76,13 @@ class session (osv.Model):
                 res[session.id] = session.start_date
         return res
     
-    #def _set_end_date(self, cr, uid, ids, fields, values, arg, context={}):
-    #    return True
+    def _set_end_date(self, cr, uid, id, field, value, arg, context={}):
+        session = self.browse(cr, uid, id, context=context)
+        if session.start_date and value:
+            start_date = datetime.strptime(session.start_date, "%Y-%m-%d")
+            end_date = datetime.strptime(value[:10], "%Y-%m-%d")
+            duration = end_date - start_date
+            self.write(cr, uid, id, {'duration': (duration.days + 1)}, context=context)
     
     _columns = {
         'name':         fields.char(string="Name", size=128, required=True),
@@ -90,8 +95,8 @@ class session (osv.Model):
         'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
         'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats (%)", readonly=True),
         'active':       fields.boolean(string="Active", help="Uncheck this to deactivate this session. Beware, it will not appear anymore in the session list."),
-        #'end_date':     fields.function(_compute_end_date, fnct_inv=_set_end_date, type="date", string="End date")
-        'end_date':     fields.function(_compute_end_date, type="date", string="End date")
+        'end_date':     fields.function(_compute_end_date, fnct_inv=_set_end_date, type="date", string="End date")
+        #'end_date':     fields.function(_compute_end_date, type="date", string="End date")
     }
     
     _defaults = {
