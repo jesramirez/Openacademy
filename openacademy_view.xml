@@ -77,7 +77,11 @@
                     </group>
                     <notebook colspan="4">
                         <page string="Attendees">
-                            <field name="attendee_ids" colspan="4" nolabel="1" />
+                            <field name="attendee_ids" colspan="4" nolabel="1">
+                                <tree string="" editable="top">
+                                    <field name="partner_id" />
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </form>
@@ -129,5 +133,26 @@
             sequence="10"
             parent="menu_openacademy_configuration"
             action="action_course"/>
+            
+        <menuitem id="menu_openacademy_instructors"
+            name="Instructors"
+            sequence="11"
+            parent="menu_openacademy_configuration"
+            action="base.action_partner_form"/>
+            
+            
+        <!-- improved partner view, add is_instructor and attendee_ids -->
+        <record id="view_openacademy_partner" model="ir.ui.view">
+            <field name="name">view.openacademy.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page/group/group/field[@name='supplier']" position="after">
+                    <field name="instructor"/>
+                </xpath>
+            </field>
+        </record>
+            
+            
     </data>
 </openerp>

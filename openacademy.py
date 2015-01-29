@@ -31,7 +31,26 @@ class attendee (osv.Model):
     _order = 'partner_id'
     
     _columns = {
-        'name':         fields.char(string="Name", size=256),
         'partner_id':   fields.many2one('res.partner', string="Partner"),
         'session_id':   fields.many2one('openacademy.session', string="Attended session", ondelete="cascade"),
     }
+
+class resPartner (osv.Model):
+    #_name = "res.partner"
+    _inherit = "res.partner"
+    
+    _columns = {
+        'instructor':    fields.boolean(string="Instructor"),
+        'attendee_ids':     fields.one2many('openacademy.attendee', 'partner_id', string="Sessions"),
+    }
+
+
+
+
+
+
+
+
+
+
+
