@@ -15,6 +15,7 @@ Este módulo permite la gestión de centros educativos.
 """,
     'data': [
         'openacademy_view.xml',
+        'openacademy_menu.xml',
         #all other data files, except demo data and tests
         ],
     'demo': [

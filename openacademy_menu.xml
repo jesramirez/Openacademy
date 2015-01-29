@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <menuitem id="menu_openacademy"
+            name="OpenAcademy"
+            sequence="10"
+            action="action_course"/>
+            
+        <menuitem id="menu_openacademy_openacademy"
+            name="OpenAcademy"
+            sequence="10"
+            parent="menu_openacademy" />
+            
+        <menuitem id="menu_openacademy_sessions"
+            name="Sessions"
+            sequence="10"
+            parent="menu_openacademy_openacademy"
+            action="action_session" />
+            
+        <menuitem id="menu_openacademy_configuration"
+            name="Configuration"
+            sequence="100"
+            parent="menu_openacademy" />
+            
+        <menuitem id="menu_openacademy_courses"
+            name="Courses"
+            sequence="10"
+            parent="menu_openacademy_configuration"
+            action="action_course"/>
+            
+        <menuitem id="menu_openacademy_instructors"
+            name="Instructors"
+            sequence="11"
+            parent="menu_openacademy_configuration"
+            action="base.action_partner_form"/>
+    </data>
+</openerp>
