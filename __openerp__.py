@@ -8,11 +8,11 @@
     "author": "Carlos Contreras",
     "category": "Academic",
     "description": """
-    OpenAcademy
-    ===========
-    
-    Este módulo permite la gestión de centros educativos.
-    """,
+OpenAcademy
+===========
+
+Este módulo permite la gestión de centros educativos.
+""",
     'data': [
         #all other data files, except demo data and tests
         ],
