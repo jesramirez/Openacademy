@@ -1,5 +1,6 @@
 from openerp.osv import osv, fields
 from datetime import datetime, timedelta
+from tools.translate import _
 
 class session (osv.Model):
     _name = 'openacademy.session'
@@ -26,13 +27,13 @@ class session (osv.Model):
         }
         if seats < 0:
             res['warning'] = {
-                'title':    'Warning: wrong value',
-                'message':  'The seats number cannot be negative.'
+                'title':    _('Warning: wrong value'),
+                'message':  _('The seats number cannot be negative.')
             }
         elif seats < len(attendee_ids):
             res['warning'] = {
-                'title':    'Warning: wrong value',
-                'message':  'There is not enough seats for everyone.'
+                'title':    _('Warning: wrong value'),
+                'message':  _('There is not enough seats for everyone.')
             }
         return res
     
@@ -88,7 +89,7 @@ class session (osv.Model):
         return self.write(cr, uid, ids, {'state': 'done'}, context=context)
     
     _columns = {
-        'name':         fields.char(string="Name", size=128, required=True),
+        'name':         fields.char(string="Name", size=128, required=True, translate=True),
         'start_date':   fields.date(string="Start date"),
         'duration':     fields.float(string="Duration", digits=(6,2), help="Session durantion in days"),
         'seats':        fields.integer(string="Number of seats"),

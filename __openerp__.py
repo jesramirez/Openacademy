@@ -6,6 +6,7 @@
         "base",
         "mail",
         "report_webkit",
+        "board",
     ],
     "author": "Carlos Contreras",
     "category": "Academic",
