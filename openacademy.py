@@ -106,6 +106,15 @@ class session (osv.Model):
         if value:
             self.write(cr, uid, id, {'duration':(value/24)}, context=context)
     
+    def action_draft(self, cr, uid, ids, context={}):
+        return self.write(cr, uid, ids, {'state': 'draft'}, context=context)
+        
+    def action_confirmed(self, cr, uid, ids, context={}):
+        return self.write(cr, uid, ids, {'state': 'confirmed'}, context=context)
+        
+    def action_done(self, cr, uid, ids, context={}):
+        return self.write(cr, uid, ids, {'state': 'done'}, context=context)
+    
     _columns = {
         'name':         fields.char(string="Name", size=128, required=True),
         'start_date':   fields.date(string="Start date"),
@@ -121,11 +130,13 @@ class session (osv.Model):
         'hours':        fields.function(_compute_hours, fnct_inv=_set_hours, type="float", string="Hours"),
         'attendee_count':   fields.function(_compute_attendee_count, type="integer", string="Attendee Count", store=True),
         'color':        fields.integer('Color'),
+        'state':        fields.selection([('draft','Draft'),('confirmed','Confirmed'),('done','Done')], string="State"),
     }
     
     _defaults = {
         'start_date':   fields.date.today,
         'active':       True,
+        'state':        'draft',
     }
     
     def _check_instructor_not_in_attendees(self, cr, uid, ids, context={}):
