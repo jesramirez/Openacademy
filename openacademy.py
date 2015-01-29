@@ -14,14 +14,26 @@ class course (osv.Model):
 class session (osv.Model):
     _name = 'openacademy.session'
     
+    def compute_available_seats(self, seats, attendee_ids):
+        if seats == 0 or len(attendee_ids) > seats:
+            return 0.0
+        else:
+            return 100.0 - (float(len(attendee_ids)) / seats * 100)
+        
+    
     def get_available_seats(self, cr, uid, ids, field, arg, context={}):
         res = {}
         sessions = self.browse(cr, uid, ids, context=context)
         for session in sessions:
-            if session.seats == 0:
-                res[session.id] = 0.0
-            else:
-                res[session.id] = 100.0 - (float(len(session.attendee_ids)) / session.seats * 100)
+            res[session.id] = self.compute_available_seats(session.seats, session.attendee_ids)
+        return res
+    
+    def onchange_seats(self, cr, uid, ids, seats, attendee_ids, context={}):
+        res = {
+            'value': {
+                'available_seats': self.compute_available_seats(seats, attendee_ids)
+                }
+        }
         return res
     
     _columns = {
@@ -45,6 +57,8 @@ class attendee (osv.Model):
     _columns = {
         'partner_id':   fields.many2one('res.partner', string="Partner"),
         'session_id':   fields.many2one('openacademy.session', string="Attended session", ondelete="cascade"),
+        'partner_id_mobile':    fields.related('partner_id','mobile',string='Mobile',type="char",readonly=True),
+        'partner_id_country':   fields.related('partner_id','country_id','name',string='Country',type="char",readonly=True),
     }
 
 class resPartner (osv.Model):

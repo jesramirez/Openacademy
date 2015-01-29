@@ -74,7 +74,7 @@
                         <separator string="Schedule" colspan="2" />
                         <field name="start_date" />
                         <field name="duration" />
-                        <field name="seats" />
+                        <field name="seats" on_change="onchange_seats(seats,attendee_ids)" />
                         <field name="available_seats" widget="progressbar" />
                     </group>
                     <notebook colspan="4">
@@ -82,6 +82,8 @@
                             <field name="attendee_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="partner_id" />
+                                    <field name="partner_id_mobile" />
+                                    <field name="partner_id_country" />
                                 </tree>
                             </field>
                         </page>
