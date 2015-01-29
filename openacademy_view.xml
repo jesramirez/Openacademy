@@ -126,10 +126,23 @@
             </field>
         </record>
         
+        <record model="ir.ui.view" id="view_openacademy_session_gantt">
+            <field name="name">view.openacademy.session.gantt</field>
+            <field name="model">openacademy.session</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <gantt string="Sessions" color="course_id" date_start="start_date" date_delay="hours" >
+                    <level object="res.partner" link="instructor_id">
+                        <field name="name" />
+                    </level>
+                </gantt>
+            </field>
+        </record>
+        
         <record model="ir.actions.act_window" id="action_session">
             <field name="name">Sessions</field>
             <field name="res_model">openacademy.session</field>
-            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_mode">tree,form,calendar,gantt</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">There are no sessions, you can create one right now.</p>
             </field>

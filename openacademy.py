@@ -84,6 +84,22 @@ class session (osv.Model):
             duration = end_date - start_date
             self.write(cr, uid, id, {'duration': (duration.days + 1)}, context=context)
     
+    def _compute_hours(self, cr, uid, ids, fields, arg, context={}):
+        res = {}
+        for session in self.browse(cr, uid, ids, context=context):
+            res[session.id] = (session.duration * 24 if session.duration else 0)
+            """
+            if session.duration:
+                res[session.id] = session.duration * 24
+            else:
+                res[session.id] = 0
+                """
+        return res
+    
+    def _set_hours(self, cr, uid, id, field, value, arg, context={}):
+        if value:
+            self.write(cr, uid, id, {'duration':(value/24)}, context=context)
+    
     _columns = {
         'name':         fields.char(string="Name", size=128, required=True),
         'start_date':   fields.date(string="Start date"),
@@ -95,8 +111,8 @@ class session (osv.Model):
         'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
         'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats (%)", readonly=True),
         'active':       fields.boolean(string="Active", help="Uncheck this to deactivate this session. Beware, it will not appear anymore in the session list."),
-        'end_date':     fields.function(_compute_end_date, fnct_inv=_set_end_date, type="date", string="End date")
-        #'end_date':     fields.function(_compute_end_date, type="date", string="End date")
+        'end_date':     fields.function(_compute_end_date, fnct_inv=_set_end_date, type="date", string="End date"),
+        'hours':        fields.function(_compute_hours, fnct_inv=_set_hours, type="float", string="Hours"),
     }
     
     _defaults = {
