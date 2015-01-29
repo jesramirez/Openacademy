@@ -8,6 +8,7 @@ class course (osv.Model):
         'name':             fields.char(string="Name", size=128, required=True),
         'description':      fields.text(string="Description"),
         'responsible_id':   fields.many2one('res.users', string="Responsible", required=True),
+        'session_ids':      fields.one2many('openacademy.session', 'course_id', string="Sessions"),
     }
 
 class session (osv.Model):
@@ -20,6 +21,7 @@ class session (osv.Model):
         'seats':        fields.integer(string="Number of seats"),
         'instructor_id':fields.many2one('res.partner', string="Instructor", ondelete="set null"),
         'course_id':    fields.many2one('openacademy.course', string="Course", ondelete="cascade"),
+        'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
     }
 
 class attendee (osv.Model):

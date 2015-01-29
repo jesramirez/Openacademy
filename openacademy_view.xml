@@ -26,15 +26,60 @@
                             <label for="name" class="oe_edit_only" string="Course Name" />
                             <h1><field name="name" placeholder="Course name (ie: Arts 101)" /></h1>
                         </div>
+                        <group>
+                            <field name="responsible_id" />
+                        </group>
                         <notebook colspan="4">
                             <page string="Description">
                                 <field name="description" colspan="4" nolabel="1" placeholder="Course description ..." />
+                            </page>
+                            <page string="Sessions">
+                                <field name="session_ids" colspan="4" />
                             </page>
                             <page string="Help">
                                 <label string="This is the courses object help. Enjoy."/>
                             </page>
                         </notebook>
                     </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_openacademy_session_tree">
+            <field name="name">view.openacademy.session.tree</field>
+            <field name="model">openacademy.session</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Sessions">
+                    <field name="name" />
+                    <field name="course_id" />
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_openacademy_session_form">
+            <field name="name">view.openacademy.session.form</field>
+            <field name="model">openacademy.session</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Session">
+                    <group colspan="2" col="2">
+                        <separator string="General" colspan="2" />
+                        <field name="course_id" />
+                        <field name="name" />
+                        <field name="instructor_id" />
+                    </group>
+                    <group colspan="2" col="2">
+                        <separator string="Schedule" colspan="2" />
+                        <field name="start_date" />
+                        <field name="duration" />
+                        <field name="seats" />
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Attendees">
+                            <field name="attendee_ids" colspan="4" nolabel="1" />
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
