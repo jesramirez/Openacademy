@@ -116,6 +116,15 @@
                 <xpath expr="//page/group/group/field[@name='supplier']" position="after">
                     <field name="instructor"/>
                 </xpath>
+                <notebook position="inside">
+                    <page string="Session attendance">
+                        <field name="attendee_ids">
+                            <tree string="">
+                                <field name="session_id" />
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
             </field>
         </record>
             

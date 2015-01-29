@@ -19,7 +19,8 @@ class session (osv.Model):
         'start_date':   fields.date(string="Start date"),
         'duration':     fields.float(string="Duration", digits=(6,2), help="Session durantion in days"),
         'seats':        fields.integer(string="Number of seats"),
-        'instructor_id':fields.many2one('res.partner', string="Instructor", ondelete="set null"),
+        'instructor_id':fields.many2one('res.partner', string="Instructor", ondelete="set null",
+                                        domain="['|',('instructor','=',True),('category_id.name','in',['Teacher level 1', 'Teacher level 2'])]"),
         'course_id':    fields.many2one('openacademy.course', string="Course", ondelete="cascade"),
         'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
     }
