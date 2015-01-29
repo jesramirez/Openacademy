@@ -74,6 +74,7 @@
                         <field name="start_date" />
                         <field name="duration" />
                         <field name="seats" />
+                        <field name="available_seats" />
                     </group>
                     <notebook colspan="4">
                         <page string="Attendees">

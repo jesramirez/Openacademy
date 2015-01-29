@@ -20,18 +20,18 @@ class session (osv.Model):
         for session in sessions:
             #Con try
             #try:
-            #    res[session.id] = len(session.attendee_ids) / session.seats * 100
+            #    res[session.id] = 100.0 - (float(len(session.attendee_ids)) / session.seats * 100)
             #except ZeroDivisionError:
             #    res[session.id] = 0.0
             
             #Con if
-            #if session.seats == 0.0:
+            #if session.seats == 0:
             #    res[session.id] = 0.0
             #else:
-            #    res[session.id] = len(session.attendee_ids) / session.seats * 100
+            #    res[session.id] = 100.0 - (float(len(session.attendee_ids)) / session.seats * 100)
             
             #Con python
-            res[session.id] = session.seats == 0.0 and 0.0 or len(session.attendee_ids) / session.seats * 100
+            res[session.id] = (session.seats == 0 and 0.0) or 100.0 - ((float(len(session.attendee_ids)) / session.seats) * 100)
         return res
     
     _columns = {
@@ -43,7 +43,7 @@ class session (osv.Model):
                                         domain="['|',('instructor','=',True),('category_id.name','in',['Teacher level 1', 'Teacher level 2'])]"),
         'course_id':    fields.many2one('openacademy.course', string="Course", ondelete="cascade"),
         'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
-        'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats", readonly=True)
+        'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats (%)", readonly=True)
     }
 
 class attendee (osv.Model):
