@@ -34,6 +34,16 @@ class session (osv.Model):
                 'available_seats': self.compute_available_seats(seats, attendee_ids)
                 }
         }
+        if seats < 0:
+            res['warning'] = {
+                'title':    'Warning: wrong value',
+                'message':  'The seats number cannot be negative.'
+            }
+        elif seats < len(attendee_ids):
+            res['warning'] = {
+                'title':    'Warning: wrong value',
+                'message':  'There is not enough seats for everyone.'
+            }
         return res
     
     _columns = {
