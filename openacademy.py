@@ -18,20 +18,10 @@ class session (osv.Model):
         res = {}
         sessions = self.browse(cr, uid, ids, context=context)
         for session in sessions:
-            #Con try
-            #try:
-            #    res[session.id] = 100.0 - (float(len(session.attendee_ids)) / session.seats * 100)
-            #except ZeroDivisionError:
-            #    res[session.id] = 0.0
-            
-            #Con if
-            #if session.seats == 0:
-            #    res[session.id] = 0.0
-            #else:
-            #    res[session.id] = 100.0 - (float(len(session.attendee_ids)) / session.seats * 100)
-            
-            #Con python
-            res[session.id] = (session.seats == 0 and 0.0) or 100.0 - ((float(len(session.attendee_ids)) / session.seats) * 100)
+            if session.seats == 0:
+                res[session.id] = 0.0
+            else:
+                res[session.id] = 100.0 - (float(len(session.attendee_ids)) / session.seats * 100)
         return res
     
     _columns = {

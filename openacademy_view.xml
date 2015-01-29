@@ -53,6 +53,7 @@
                 <tree string="Sessions">
                     <field name="name" />
                     <field name="course_id" />
+                    <field name="available_seats" widget="progressbar" />
                 </tree>
             </field>
         </record>
@@ -74,7 +75,7 @@
                         <field name="start_date" />
                         <field name="duration" />
                         <field name="seats" />
-                        <field name="available_seats" />
+                        <field name="available_seats" widget="progressbar" />
                     </group>
                     <notebook colspan="4">
                         <page string="Attendees">
