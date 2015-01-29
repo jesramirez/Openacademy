@@ -20,6 +20,7 @@ Este módulo permite la gestión de centros educativos.
         'openacademy_workflow.xml',
         'security/openacademy_security.xml',
         'security/ir.model.access.csv',
+        'wizards/openacademy_wizards_view.xml',
         #all other data files, except demo data and tests
         ],
     'demo': [
