@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_openacademy_attendee_wizard_create_form">
+            <field name="name">view.openacademy.wizard.attendee.create.form</field>
+            <field name="model">openacademy.wizard.attendee.create</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Add attendee" version="7.0">
+                    <field name="session_ids" colspan="4" />
+                    <field name="attendee_ids" nolabel="1">
+                        <tree string="Attendees" editable="bottom">
+                            <field name="name" />
+                        </tree>
+                    </field>
+                    <footer>
+                        <button type="object" name="action_add_attendee" string="Add atteendees" icon="gtk-ok"
+                            confirm="Are you sure you want to add these attendees?" class="oe_highlight" />
+                            or
+                        <button type="special" special="cancel" string="Cancel" class="oe_link" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <act_window id="action_attendee_wizard_create"
+            name="Add attendee"
+            res_model="openacademy.wizard.attendee.create"
+            view_mode="form"
+            target="new"
+        />
+        
+        <menuitem id="menu_openacademy_attendee_wizard_create"
+            name="Add attendee"
+            sequence="50"
+            parent="menu_openacademy_openacademy"
+            action="action_attendee_wizard_create"/>
+    </data>
+</openerp>
