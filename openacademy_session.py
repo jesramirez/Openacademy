@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 class session (osv.Model):
     _name = 'openacademy.session'
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     
     def compute_available_seats(self, seats, attendee_ids):
         if seats == 0 or len(attendee_ids) > seats:

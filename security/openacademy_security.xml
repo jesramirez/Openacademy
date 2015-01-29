@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record model="ir.module.category" id="openacademy_sec_categ">
+            <field name="name">OpenAcademy</field>
+        </record>
+        
+        <record model="res.groups" id="openacademy_grp_session_read">
+            <field name="name">Session Read</field>
+            <field name="category_id" ref="openacademy_sec_categ" />
+        </record>
+        
+        <record model="res.groups" id="openacademy_grp_user">
+            <field name="name">User</field>
+            <field name="category_id" ref="openacademy_sec_categ" />
+            <field name="implied_ids" eval="[(4, ref('openacademy_grp_session_read'))]" />
+        </record>
+        
+        <record model="res.groups" id="openacademy_grp_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="openacademy_sec_categ" />
+            <field name="implied_ids" eval="[(4, ref('openacademy_grp_user'))]" />
+        </record>
+        
+        <record model="ir.rule" id="openacademy_rule_course_only_responsible">
+            <field name="name">Only responsible can modify/delete courses</field>
+            <field name="model_id" ref="model_openacademy_course" />
+            <field name="groups" eval="[(4, ref('openacademy_grp_manager'))]" />
+            <field name="perm_read" eval="0" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_create" eval="0" />
+            <field name="perm_unlink" eval="1" />
+            <field name="domain_force">['|',('responsible_id','=',user.id),('responsible_id','=',False)]</field>
+        </record>
+    </data>
+</openerp>

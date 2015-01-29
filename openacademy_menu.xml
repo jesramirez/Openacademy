@@ -5,7 +5,7 @@
         <menuitem id="menu_openacademy"
             name="OpenAcademy"
             sequence="10"
-            action="action_course"/>
+            action="action_session"/>
             
         <menuitem id="menu_openacademy_openacademy"
             name="OpenAcademy"

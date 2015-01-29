@@ -4,6 +4,7 @@
     "version": "1.0",
     "depends": [
         "base",
+        "mail",
     ],
     "author": "Carlos Contreras",
     "category": "Academic",
@@ -17,6 +18,8 @@ Este módulo permite la gestión de centros educativos.
         'openacademy_view.xml',
         'openacademy_menu.xml',
         'openacademy_workflow.xml',
+        'security/openacademy_security.xml',
+        'security/ir.model.access.csv',
         #all other data files, except demo data and tests
         ],
     'demo': [
