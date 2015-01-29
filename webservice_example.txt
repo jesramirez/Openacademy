@@ -1,0 +1,39 @@
+>>> import xmlrpclib
+>>> HOST = "localhost"
+>>> PORT = "2050"
+>>> USER = "admin"
+>>> PASS = "admin"
+>>> URL_COMMON = "http://%s:%s/xmlrpc/common" % (HOST, PORT)
+>>> URL_OBJECT = "http://%s:%s/xmlrpc/object" % (HOST, PORT)
+>>> sock = xmlrpclib.ServerProxy(URL_COMMON)
+>>> uid = sock.login("openacademy_demo", USER, PASS)
+>>> print uid
+1
+>>> sock = xmlrpclib.ServerProxy(URL_OBJECT)
+>>> session_ids = sock.execute("openacademy_demo", uid, PASS, "openacademy.session", "search",[])
+>>> print session_ids
+[1, 2]
+>>> sessions = sock.execute("openacademy_demo", uid, PASS, "openacademy.session", "read",session_ids,['name','seats'])
+>>> print sessions
+[{'seats': 7, 'id': 1, 'name': u'D\xeda 1'}, {'seats': 4, 'id': 2, 'name': u'D\xeda 2'}]
+>>> for session in sessions:
+...     print "Session name: %s (%s seats)" % (session['name'], session['seats'])
+... 
+Session name: Día 1 (7 seats)
+Session name: Día 2 (4 seats)
+>>> course_ids = sock.execute("openacademy_demo", uid, PASS, "openacademy.course", "search",[])
+>>> print course_ids
+[2]
+>>> new_session_id = sock.execute("openacademy_demo", uid, PASS, "openacademy.session", "create", {'name': 'webservice session', 'course_id':2})
+>>> print new_session_id
+3
+>>> dia = 3
+>>> while dia > 151:
+...    new_session_id = sock.execute("openacademy_demo", uid, PASS, "openacademy.session", "create", {'name': 'Día %s' % dia, 'course_id':2})
+...    dia=dia+1
+... 
+>>> while dia < 151:
+...    new_session_id = sock.execute("openacademy_demo", uid, PASS, "openacademy.session", "create", {'name': 'Día %s' % dia, 'course_id':2})
+...    dia=dia+1
+... 
+>>> 
