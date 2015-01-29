@@ -2,6 +2,43 @@
 
 <openerp>
     <data>
+        
+        <record model="ir.ui.view" id="view_openacademy_course_tree">
+            <field name="name">view.openacademy.course.tree</field>
+            <field name="model">openacademy.course</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Courses">
+                    <field name="name" />
+                    <field name="description" />
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_openacademy_course_form">
+            <field name="name">view.openacademy.course.form</field>
+            <field name="model">openacademy.course</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Course" version="7.0">
+                    <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Course Name" />
+                        <h1><field name="name" placeholder="Course name (ie: Arts 101)" /></h1>
+                    </div>
+                    <notebook colspan="4">
+                        <page string="Description">
+                            <field name="description" colspan="4" nolabel="1" placeholder="Course description ..." />
+                        </page>
+                        <page string="Help">
+                            <label string="This is the courses object help. Enjoy."/>
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
         <record model="ir.actions.act_window" id="action_course">
             <field name="name">Courses</field>
             <field name="res_model">openacademy.course</field>
@@ -15,6 +52,17 @@
         <menuitem id="menu_openacademy"
             name="OpenAcademy"
             sequence="10"
+            action="action_course"/>
+            
+        <menuitem id="menu_openacademy_configuration"
+            name="Configuration"
+            sequence="100"
+            parent="menu_openacademy" />
+            
+        <menuitem id="menu_openacademy_courses"
+            name="Courses"
+            sequence="10"
+            parent="menu_openacademy_configuration"
             action="action_course"/>
     </data>
 </openerp>
