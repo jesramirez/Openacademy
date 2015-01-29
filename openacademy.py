@@ -10,6 +10,16 @@ class course (osv.Model):
         'responsible_id':   fields.many2one('res.users', string="Responsible", required=True),
         'session_ids':      fields.one2many('openacademy.session', 'course_id', string="Sessions"),
     }
+    
+    _sql_constraints = [
+        ('name_description_check',
+        'CHECK(name <> description)',
+        'The course title must be different from its description.'),
+        
+        ('name_unique',
+        'UNIQUE(name)',
+        'The course title must be unique.')
+    ]
 
 class session (osv.Model):
     _name = 'openacademy.session'
@@ -19,7 +29,6 @@ class session (osv.Model):
             return 0.0
         else:
             return 100.0 - (float(len(attendee_ids)) / seats * 100)
-        
     
     def get_available_seats(self, cr, uid, ids, field, arg, context={}):
         res = {}
@@ -57,6 +66,22 @@ class session (osv.Model):
         'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
         'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats (%)", readonly=True)
     }
+    
+    def _check_instructor_not_in_attendees(self, cr, uid, ids, context={}):
+        for session in self.browse(cr, uid, ids, context=context):
+            #partners = []
+            #for attendee in session.attendee_ids:
+            #    partners.append(attendee.partner_id)
+            partners = [attendee.partner_id for attendee in session.attendee_ids]
+            if session.instructor_id and session.instructor_id in partners:
+                return False
+        return True
+    
+    _constraints = [
+        (_check_instructor_not_in_attendees,
+        "The instructor cannot be also an attendee.",
+        ['instructor_id', 'attendee_ids'])
+    ]
 
 class attendee (osv.Model):
     _name = 'openacademy.attendee'
@@ -70,6 +95,12 @@ class attendee (osv.Model):
         'partner_id_mobile':    fields.related('partner_id','mobile',string='Mobile',type="char",readonly=True),
         'partner_id_country':   fields.related('partner_id','country_id','name',string='Country',type="char",readonly=True),
     }
+    
+    _sql_constraints = [
+        ('partner_session_unique',
+        'UNIQUE(partner_id, session_id)',
+        'You cannot add an attendee multiple times on the same session.')
+    ]
 
 class resPartner (osv.Model):
     #_name = "res.partner"
