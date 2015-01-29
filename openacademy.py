@@ -1,4 +1,5 @@
 from openerp.osv import osv, fields
+from datetime import datetime, timedelta
 
 
 class course (osv.Model):
@@ -63,6 +64,21 @@ class session (osv.Model):
             }
         return res
     
+    def _compute_end_date(self, cr, uid, ids, fields, arg, context={}):
+        res = {}
+        for session in self.browse(cr, uid, ids, context=context):
+            if session.start_date and session.duration:
+                start_date = datetime.strptime(session.start_date, "%Y-%m-%d")
+                duration = timedelta(days=(session.duration-1))
+                end_date = start_date + duration
+                res[session.id] = end_date.strftime('%Y-%m-%d')
+            else:
+                res[session.id] = session.start_date
+        return res
+    
+    #def _set_end_date(self, cr, uid, ids, fields, values, arg, context={}):
+    #    return True
+    
     _columns = {
         'name':         fields.char(string="Name", size=128, required=True),
         'start_date':   fields.date(string="Start date"),
@@ -74,6 +90,8 @@ class session (osv.Model):
         'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
         'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats (%)", readonly=True),
         'active':       fields.boolean(string="Active", help="Uncheck this to deactivate this session. Beware, it will not appear anymore in the session list."),
+        #'end_date':     fields.function(_compute_end_date, fnct_inv=_set_end_date, type="date", string="End date")
+        'end_date':     fields.function(_compute_end_date, type="date", string="End date")
     }
     
     _defaults = {
