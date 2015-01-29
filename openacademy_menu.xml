@@ -34,5 +34,11 @@
             sequence="11"
             parent="menu_openacademy_configuration"
             action="base.action_partner_form"/>
+            
+        <menuitem id="menu_openacademy_board"
+            name="Dashboard"
+            sequence="5"
+            parent="menu_openacademy_openacademy"
+            action="act_board"/>
     </data>
 </openerp>
