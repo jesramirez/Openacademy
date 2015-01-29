@@ -52,20 +52,24 @@
     <images/>
   </stylesheet>
   <story>
-    <para style="P1">Course Information</para>
+    <para style="P1">Session Information</para>
     <para style="Standard">
       <font color="white"> </font>
     </para>
     <section>
-      <para style="Text body">[[ repeatIn(objects,'course') ]]</para>
-      <para style="P2">[[ course.code ]] - [[ course.name ]]</para>
+      <para style="Text body">[[ repeatIn(objects,'session') ]]</para>
+      <para style="P2">[[ session.name ]] - [[ session.course_id.name ]]</para>
+      <para style="P3">Responsible: [[ session.instructor_id.name ]]</para>
+      <para style="P3">Start date: [[ session.start_date ]]</para>
+      <para style="P3">Duration (days): [[ session.duration ]]</para>
+      <para style="P3">Seats available: [[ session.available_seats ]]%</para>
       <para style="P3">
         <font color="white"> </font>
       </para>
       <para style="P4">Attendants:</para>
       <section>
-        <para style="P3">[[ repeatIn(course.student_ids, 'attendant') ]]</para>
-        <para style="P5">[[ attendant.student_card ]] [[ attendant.name ]]</para>
+        <para style="P3">[[ repeatIn(session.attendee_ids, 'attendee') ]]</para>
+        <para style="P5">[[ attendee.partner_id.ref ]] [[ attendee.partner_id.name ]]</para>
       </section>
       <para style="P3">
         <font color="white"> </font>

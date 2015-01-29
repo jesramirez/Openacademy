@@ -5,6 +5,7 @@
     "depends": [
         "base",
         "mail",
+        "report_webkit",
     ],
     "author": "Carlos Contreras",
     "category": "Academic",
@@ -21,6 +22,7 @@ Este módulo permite la gestión de centros educativos.
         'security/openacademy_security.xml',
         'security/ir.model.access.csv',
         'wizards/openacademy_wizards_view.xml',
+        'openacademy_report.xml',
         #all other data files, except demo data and tests
         ],
     'demo': [
