@@ -69,6 +69,7 @@
                         <field name="course_id" />
                         <field name="name" />
                         <field name="instructor_id" />
+                        <field name="active" />
                     </group>
                     <group colspan="2" col="2">
                         <separator string="Schedule" colspan="2" />

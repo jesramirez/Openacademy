@@ -20,6 +20,14 @@ class course (osv.Model):
         'UNIQUE(name)',
         'The course title must be unique.')
     ]
+    
+    def copy(self, cr, uid, id, default=None, context={}):
+        course_brw = self.browse(cr, uid, id, context=context)
+        new_name = course_brw.name
+        while self.search(cr, uid, [('name', '=ilike', new_name)], count=True, context=context) != 0:
+            new_name = "%s (copy)" % new_name
+        default['name'] = new_name
+        return super(course, self).copy(cr, uid, id, default, context=context)
 
 class session (osv.Model):
     _name = 'openacademy.session'
@@ -64,7 +72,13 @@ class session (osv.Model):
                                         domain="['|',('instructor','=',True),('category_id.name','in',['Teacher level 1', 'Teacher level 2'])]"),
         'course_id':    fields.many2one('openacademy.course', string="Course", ondelete="cascade"),
         'attendee_ids': fields.one2many('openacademy.attendee', 'session_id', string="Attendees"),
-        'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats (%)", readonly=True)
+        'available_seats':  fields.function(get_available_seats, type="float", string="Available Seats (%)", readonly=True),
+        'active':       fields.boolean(string="Active", help="Uncheck this to deactivate this session. Beware, it will not appear anymore in the session list."),
+    }
+    
+    _defaults = {
+        'start_date':   fields.date.today,
+        'active':       True,
     }
     
     def _check_instructor_not_in_attendees(self, cr, uid, ids, context={}):
